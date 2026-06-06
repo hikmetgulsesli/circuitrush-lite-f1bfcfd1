@@ -1,0 +1,20 @@
+[
+  {
+    "screenId": "8c1510fec89047199b5e4e3bcc355414",
+    "name": "Game Settings - CircuitRush Lite",
+    "type": "settings",
+    "description": "Game Settings - CircuitRush Lite screen",
+    "surfaceIds": [
+      "SURF_GAME_SETTINGS"
+    ]
+  },
+  {
+    "screenId": "813c6ee0de11475db9f9dc852fc50661",
+    "name": "Gameplay - CircuitRush Lite",
+    "type": "game",
+    "description": "Gameplay - CircuitRush Lite screen",
+    "surfaceIds": [
+      "SURF_GAMEPLAY"
+    ]
+  }
+]

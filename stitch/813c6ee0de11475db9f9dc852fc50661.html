@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gameplay - CircuitRush Lite</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&amp;family=Sora:wght@600;800&amp;family=Inter:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary": "#520072",
+                      "on-tertiary-fixed-variant": "#095300",
+                      "secondary-container": "#b600f8",
+                      "on-tertiary": "#053900",
+                      "on-background": "#e0e2ed",
+                      "surface-container-low": "#181b23",
+                      "surface-container": "#1d2027",
+                      "surface-container-high": "#272a32",
+                      "surface-dim": "#10131b",
+                      "surface-tint": "#00dbe9",
+                      "primary": "#dbfcff",
+                      "primary-fixed": "#7df4ff",
+                      "on-surface-variant": "#b9cacb",
+                      "primary-container": "#00f0ff",
+                      "surface-variant": "#32353d",
+                      "on-secondary-fixed-variant": "#74009f",
+                      "on-surface": "#e0e2ed",
+                      "on-primary-fixed": "#002022",
+                      "tertiary": "#e1ffd1",
+                      "outline-variant": "#3b494b",
+                      "secondary-fixed-dim": "#ebb2ff",
+                      "tertiary-fixed-dim": "#2ae500",
+                      "surface-container-highest": "#32353d",
+                      "surface-container-lowest": "#0b0e15",
+                      "on-primary-container": "#006970",
+                      "on-error": "#690005",
+                      "on-primary": "#00363a",
+                      "inverse-surface": "#e0e2ed",
+                      "inverse-on-surface": "#2d3038",
+                      "background": "#10131b",
+                      "error": "#ffb4ab",
+                      "error-container": "#93000a",
+                      "on-secondary-fixed": "#320047",
+                      "surface": "#10131b",
+                      "tertiary-fixed": "#79ff5b",
+                      "on-error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#022100",
+                      "secondary": "#ebb2ff",
+                      "on-primary-fixed-variant": "#004f54",
+                      "primary-fixed-dim": "#00dbe9",
+                      "surface-bright": "#363941",
+                      "on-secondary-container": "#fff6fc",
+                      "tertiary-container": "#33fb0a",
+                      "inverse-primary": "#006970",
+                      "outline": "#849495",
+                      "secondary-fixed": "#f8d8ff",
+                      "on-tertiary-container": "#106e00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "margin-desktop": "40px",
+                      "grid-cols": "12",
+                      "gutter": "16px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Space Grotesk"
+                      ],
+                      "display-lg": [
+                              "Sora"
+                      ],
+                      "display-score": [
+                              "Space Grotesk"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Sora"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.2em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.04em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "display-score": [
+                              "40px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        /* Custom Scanline Overlay */
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        
+        /* Circuit Glow Effects */
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+        .neon-glow-red {
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+        
+        /* Motion Blur Base */
+        .motion-blur {
+            filter: blur(1px);
+            animation: slight-shake 0.5s infinite alternate;
+        }
+
+        @keyframes slight-shake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(1px, -1px) rotate(0.2deg); }
+            100% { transform: translate(-1px, 1px) rotate(-0.2deg); }
+        }
+
+        /* Pulse Animation for Signal */
+        @keyframes pulse-signal {
+            0% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 20px rgba(0, 240, 255, 0.9); }
+            100% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+        }
+        .signal-pulse {
+            animation: pulse-signal 1.5s infinite;
+        }
+        
+        /* Grid Background Pattern */
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen w-screen overflow-hidden relative font-body-sm">
+<!-- Background Grid & Scanlines -->
+<div class="absolute inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+<div class="absolute inset-0 scanlines z-10"></div>
+<!-- TopAppBar Overlay (HUD) -->
+<!-- Applying structural logic: fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 bg-background/80 backdrop-blur-md shadow-[0_0_15px_rgba(0,240,255,0.3)] border-b border-primary-container/40">
+<!-- Brand/Logo Area -->
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-display-lg text-primary-container tracking-tighter italic">CircuitRush Lite</span>
+<!-- Data Chip: Level Indicator -->
+<div class="hidden md:flex ml-4 px-3 py-1 bg-surface-variant/50 border border-primary-container/40 rounded neon-glow items-center gap-2">
+<span class="font-label-caps text-label-caps text-primary-container">LEVEL: 04</span>
+</div>
+</div>
+<!-- HUD Center Stats -->
+<div class="flex-1 flex justify-center gap-8 md:gap-16">
+<!-- Score -->
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">SCORE</span>
+<span class="font-display-score text-display-score text-primary-fixed">004,250</span>
+</div>
+<!-- Lives -->
+<div class="flex flex-col items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">LIVES</span>
+<div class="flex gap-1 text-primary-container font-bold font-label-caps text-label-caps mt-1">
+                    [III]
+                </div>
+</div>
+</div>
+<!-- Trailing Actions (Volume, Settings, Pause/Account) -->
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary-container hover:bg-primary-container/10 transition-all duration-150 p-2 rounded">
+<span class="material-symbols-outlined" data-icon="volume_up">volume_up</span>
+</button>
+<a class="text-primary-container font-bold border-b-2 border-primary-container hover:bg-primary-container hover:text-on-primary-fixed transition-all duration-150 p-2 flex items-center justify-center" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</a>
+<button class="text-on-surface-variant hover:text-primary-container hover:bg-primary-container/10 transition-all duration-150 p-2 rounded">
+<span class="material-symbols-outlined" data-icon="pause">pause</span>
+</button>
+</div>
+</header>
+<!-- Playfield Area (The Canvas) -->
+<main class="absolute inset-0 z-20 flex items-center justify-center pt-24 pb-8 px-margin-mobile md:px-margin-desktop">
+<!-- Game Container representing the board -->
+<div class="relative w-full h-full max-w-5xl max-h-[800px] border border-primary-container/20 rounded-xl bg-gradient-to-b from-[rgba(18,24,38,0.8)] to-[rgba(18,24,38,0.4)] overflow-hidden">
+<!-- Circuit Lines (Decorative/Play Paths) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none motion-blur opacity-80" preserveaspectratio="none" viewbox="0 0 1000 800">
+<!-- Main paths -->
+<path class="neon-glow" d="M 100,400 L 300,400 L 400,200 L 600,200 L 700,500 L 900,500" fill="none" stroke="#00dbe9" stroke-dasharray="10 5" stroke-width="2"></path>
+<path d="M 200,600 L 300,600 L 400,800" fill="none" opacity="0.5" stroke="#00f0ff" stroke-width="1"></path>
+<path d="M 500,100 L 600,300 L 800,300 L 900,100" fill="none" opacity="0.3" stroke="#00f0ff" stroke-width="1"></path>
+<!-- Circuit 45 deg angles -->
+<path d="M 50,150 L 150,150 L 200,200" fill="none" stroke="#00dbe9" stroke-width="1"></path>
+<path d="M 850,700 L 750,700 L 700,650" fill="none" stroke="#00dbe9" stroke-width="1"></path>
+</svg>
+<!-- Play Entities -->
+<!-- The Central Signal (Player/Core) -->
+<div class="absolute top-[38%] left-[38%] w-6 h-6 bg-primary-container rounded-full signal-pulse z-30" style="transform: translate(-50%, -50%);"></div>
+<!-- Charge Nodes (Cyan Dots) -->
+<div class="absolute top-[25%] left-[40%] w-3 h-3 bg-primary-fixed rounded-full neon-glow z-20"></div>
+<div class="absolute top-[62%] left-[70%] w-3 h-3 bg-primary-fixed rounded-full neon-glow z-20"></div>
+<div class="absolute top-[50%] left-[90%] w-3 h-3 bg-primary-fixed rounded-full neon-glow z-20"></div>
+<div class="absolute top-[18%] left-[15%] w-3 h-3 bg-primary-fixed rounded-full neon-glow z-20"></div>
+<!-- Overload Gates (Red Barriers) -->
+<div class="absolute top-[25%] left-[50%] w-2 h-16 bg-error rounded-full neon-glow-red z-20 transform rotate-45"></div>
+<div class="absolute top-[60%] left-[25%] w-16 h-2 bg-error rounded-full neon-glow-red z-20"></div>
+<div class="absolute top-[40%] left-[80%] w-2 h-20 bg-error rounded-full neon-glow-red z-20 transform -rotate-12"></div>
+<!-- Game Overlay UI (Pause / Start state) - Displayed for demonstration -->
+<div class="absolute inset-0 bg-surface-container-lowest/60 backdrop-blur-sm z-40 flex flex-col items-center justify-center gap-8">
+<!-- Center Banner / Modal -->
+<div class="bg-surface-variant/40 border border-primary-container/50 p-8 rounded-lg shadow-[0_0_30px_rgba(0,240,255,0.2)] text-center max-w-sm w-full">
+<h2 class="font-display-lg text-display-lg text-primary-fixed mb-2">SYSTEM PAUSED</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Maintain signal integrity.</p>
+<div class="flex flex-col gap-4">
+<button class="w-full py-3 border border-primary-container bg-transparent text-primary-container font-label-caps text-label-caps rounded hover:bg-primary-container hover:text-on-primary-fixed shadow-[0_0_10px_rgba(0,240,255,0)] hover:shadow-[0_0_20px_rgba(0,240,255,0.5)] transition-all duration-200">
+                            RESUME GAME
+                        </button>
+<button class="w-full py-3 border border-outline-variant bg-transparent text-on-surface-variant font-label-caps text-label-caps rounded hover:bg-surface-variant hover:text-on-surface transition-all duration-200">
+                            RESTART LEVEL
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Hidden on this specific full-screen playfield layout to maximize canvas, but structure included if needed per spec for top-level. Since this is a highly focused task "Gameplay", nav shell should technically be suppressed based on rules: "Linear/Transactional or Task-Focused... suppress the navigation to prioritize the content canvas". The TopAppBar is explicitly requested as HUD). -->
+</body></html>
